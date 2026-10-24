@@ -10,6 +10,7 @@
 # Files that already exist are left alone, so on your laptop this does nothing.
 import os
 import sys
+import urllib.error
 import urllib.request
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -35,12 +36,22 @@ def main():
             request.add_header("Authorization", f"Bearer {token}")
         target = os.path.join(MODEL_DIR, name)
         print(f"Downloading {name} ...")
-        with urllib.request.urlopen(request, timeout=300) as response, open(target + ".part", "wb") as out:
-            while True:
-                chunk = response.read(1024 * 1024)
-                if not chunk:
-                    break
-                out.write(chunk)
+        try:
+            with urllib.request.urlopen(request, timeout=300) as response, open(target + ".part", "wb") as out:
+                while True:
+                    chunk = response.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    out.write(chunk)
+        except urllib.error.HTTPError as e:
+            # Explain the usual causes. Never print the token itself.
+            print(f"\nFAILED: HTTP {e.code} for {base_url}/{name}")
+            print(f"HF_TOKEN sent: {'yes' if token else 'NO (not set on this service)'}")
+            if e.code in (401, 403, 404):
+                print("Check: 1) the URL uses /resolve/main and the user/repo names are exact;")
+                print("       2) if the repo is private, HF_TOKEN is set on THIS Render service")
+                print("          and belongs to an account that can read the repo.")
+            sys.exit(1)
         # Rename only after a complete download, so a broken download never looks finished
         os.replace(target + ".part", target)
         print(f"  saved {os.path.getsize(target) / 1e6:.1f} MB")
