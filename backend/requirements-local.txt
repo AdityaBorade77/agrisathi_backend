@@ -1,0 +1,16 @@
+# ── Local Model Inference (optional) ──────────────────────────
+# Only needed if INFERENCE_MODE=local in .env
+# Requires NVIDIA GPU (CUDA) for good performance
+#
+# Install with: pip install -r requirements-local.txt
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+torch
+torchaudio
+transformers
+accelerate
+sentencepiece
+sacremoses
+indictranstoolkit
+librosa
+parler-tts @ git+https://github.com/huggingface/parler-tts.git

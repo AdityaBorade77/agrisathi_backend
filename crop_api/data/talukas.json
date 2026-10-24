@@ -1,0 +1,140 @@
+{
+  "_comment": "The 15 talukas (sub-districts) of Nashik district. mr/hi names are a plain transliteration of the standard spelling, not checked by a native speaker yet, so reviewed stays false until someone confirms them.",
+  "talukas": [
+    {
+      "en": "Nashik",
+      "mr": "नाशिक",
+      "hi": "नासिक",
+      "reviewed": false,
+      "latitude": 19.99727,
+      "longitude": 73.79096,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Igatpuri",
+      "mr": "इगतपुरी",
+      "hi": "इगतपुरी",
+      "reviewed": false,
+      "latitude": 19.69522,
+      "longitude": 73.5626,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Trimbakeshwar",
+      "mr": "त्र्यंबकेश्वर",
+      "hi": "त्रिंबकेश्वर",
+      "reviewed": false,
+      "latitude": 19.93268,
+      "longitude": 73.52907,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Peth",
+      "mr": "पेठ",
+      "hi": "पेठ",
+      "reviewed": false,
+      "latitude": 20.25877,
+      "longitude": 73.50361,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Surgana",
+      "mr": "सुरगाणा",
+      "hi": "सुरगाना",
+      "reviewed": false,
+      "latitude": 20.55956,
+      "longitude": 73.63747,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Kalwan",
+      "mr": "कळवण",
+      "hi": "कलवण",
+      "reviewed": false,
+      "latitude": 20.49041,
+      "longitude": 74.02536,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Deola",
+      "mr": "देवळा",
+      "hi": "देवला",
+      "reviewed": false,
+      "latitude": 20.46119,
+      "longitude": 74.18327,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Baglan",
+      "mr": "बागलाण",
+      "hi": "बागलान",
+      "reviewed": false,
+      "latitude": 20.59483,
+      "longitude": 74.20301,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Malegaon",
+      "mr": "मालेगाव",
+      "hi": "मालेगांव",
+      "reviewed": false,
+      "latitude": 20.54966,
+      "longitude": 74.53462,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Nandgaon",
+      "mr": "नांदगाव",
+      "hi": "नांदगांव",
+      "reviewed": false,
+      "latitude": 20.3068,
+      "longitude": 74.65501,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Chandwad",
+      "mr": "चांदवड",
+      "hi": "चांदवड",
+      "reviewed": false,
+      "latitude": 20.3306,
+      "longitude": 74.24467,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Yeola",
+      "mr": "येवला",
+      "hi": "येवला",
+      "reviewed": false,
+      "latitude": 20.0424,
+      "longitude": 74.48944,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Niphad",
+      "mr": "निफाड",
+      "hi": "निफाड",
+      "reviewed": false,
+      "latitude": 20.07935,
+      "longitude": 74.10926,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Sinnar",
+      "mr": "सिन्नर",
+      "hi": "सिन्नर",
+      "reviewed": false,
+      "latitude": 19.84505,
+      "longitude": 73.99866,
+      "coords_source": "Open-Meteo geocoding"
+    },
+    {
+      "en": "Dindori",
+      "mr": "दिंडोरी",
+      "hi": "दिंडोरी",
+      "reviewed": false,
+      "latitude": 20.20168,
+      "longitude": 73.83485,
+      "coords_source": "Open-Meteo geocoding"
+    }
+  ]
+}

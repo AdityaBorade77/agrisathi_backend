@@ -1,0 +1,8 @@
+{
+  "_comment": "The 3 soil categories used by the ICAR Nashik contingency plan: shallow red soils = light, medium red/black = medium, deep black = heavy. mr/hi names are a plain translation, not checked by a native speaker yet, so reviewed stays false.",
+  "soil_types": [
+    {"id": "light", "en": "Light soil", "mr": "हलकी जमीन", "hi": "हल्की मिट्टी", "reviewed": false},
+    {"id": "medium", "en": "Medium soil", "mr": "मध्यम जमीन", "hi": "मध्यम मिट्टी", "reviewed": false},
+    {"id": "heavy", "en": "Heavy soil", "mr": "भारी जमीन", "hi": "भारी मिट्टी", "reviewed": false}
+  ]
+}

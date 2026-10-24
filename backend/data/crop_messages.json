@@ -1,0 +1,56 @@
+{
+  "_comment": "Fixed farmer-facing text for /api/crop (Module 2 Phase 4b). English is the checked source; mr/hi are a first-pass translation, not yet confirmed by a native speaker or the local KVK -- reviewed:false until then (same convention as disease_names.json). Used both for the LLM-response validator's fallback text and for whole-response error messages (service_down, no_crops).",
+  "reviewed": false,
+  "service_down": {
+    "en": "Crop advice is not available right now. Please try again later.",
+    "mr": "सध्या पीक सल्ला उपलब्ध नाही. कृपया नंतर पुन्हा प्रयत्न करा.",
+    "hi": "फसल सलाह अभी उपलब्ध नहीं है। कृपया बाद में फिर से प्रयास करें."
+  },
+  "no_crops": {
+    "en": "No suitable crop found for these inputs. Please contact your nearest KVK.",
+    "mr": "या माहितीसाठी योग्य पीक सापडले नाही. कृपया आपल्या जवळच्या केव्हीकेशी संपर्क करा.",
+    "hi": "इस जानकारी के लिए उपयुक्त फसल नहीं मिली। कृपया अपने नज़दीकी केवीके से संपर्क करें."
+  },
+  "disclaimer": {
+    "en": "This is general guidance from ICAR data. Confirm with your local KVK.",
+    "mr": "ही सामान्य माहिती ICAR च्या माहितीवर आधारित आहे. आपल्या स्थानिक केव्हीकेकडून खात्री करा.",
+    "hi": "यह सामान्य जानकारी ICAR के आँकड़ों पर आधारित है। अपने स्थानीय केवीके से पुष्टि करें."
+  },
+  "reasons": {
+    "good_rotation": {
+      "en": "This crop grows well after your previous crop.",
+      "mr": "मागील पिकानंतर हे पीक चांगले येते.",
+      "hi": "पिछली फसल के बाद यह फसल अच्छी होती है."
+    },
+    "sowing_unknown": {
+      "en": "The best sowing time for this crop is not yet confirmed.",
+      "mr": "या पिकासाठी पेरणीची योग्य वेळ अजून निश्चित केलेली नाही.",
+      "hi": "इस फसल के लिए बुवाई का सही समय अभी तय नहीं है."
+    },
+    "season_window": {
+      "en": "Sowing month estimated from season, not confirmed for this exact crop.",
+      "mr": "पेरणीचा महिना हंगामावरून अंदाजित आहे, या पिकासाठी निश्चित केलेला नाही.",
+      "hi": "बुवाई का महीना मौसम के आधार पर अनुमानित है, इस फसल के लिए तय नहीं है."
+    },
+    "not_verified": {
+      "en": "This crop's data has not been verified yet.",
+      "mr": "या पिकाची माहिती अद्याप तपासलेली नाही.",
+      "hi": "इस फसल का डेटा अभी सत्यापित नहीं हुआ है."
+    },
+    "dry_spell": {
+      "en": "Rainfall has been low recently; this crop may need extra irrigation.",
+      "mr": "अलीकडे पाऊस कमी झाला आहे; या पिकासाठी जास्त पाण्याची गरज भासू शकते.",
+      "hi": "हाल में बारिश कम हुई है; इस फसल को अतिरिक्त पानी की ज़रूरत हो सकती है."
+    },
+    "ph_out_of_range": {
+      "en": "Your soil's pH may not suit this crop well.",
+      "mr": "आपल्या जमिनीचा pH या पिकासाठी योग्य नसू शकतो.",
+      "hi": "आपकी मिट्टी का pH इस फसल के लिए उपयुक्त नहीं हो सकता."
+    },
+    "ph_ok": {
+      "en": "Your soil's pH suits this crop.",
+      "mr": "आपल्या जमिनीचा pH या पिकासाठी योग्य आहे.",
+      "hi": "आपकी मिट्टी का pH इस फसल के लिए उपयुक्त है."
+    }
+  }
+}

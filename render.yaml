@@ -1,0 +1,87 @@
+# Render Blueprint: the 3 AgriSaathi services on Render's free plan.
+# This file is copied to the root of the agrisathi_backend repo by
+# deploy/export_backend.py. On render.com: New -> Blueprint -> pick that repo.
+#
+# Secrets (sync: false) are NOT stored here: Render asks for them once in
+# its dashboard. Never write a real key into this file.
+#
+# Free plan facts: 512 MB RAM, 0.1 CPU per service, sleeps after 15 min
+# with no visitors (~1 min to wake), files on disk are wiped on restart.
+#
+# Service URLs: Render names them https://<name>.onrender.com. If a name is
+# taken Render adds a suffix -- then fix CROP_API_URL / DISEASE_API_URL below
+# (or in the dashboard) to the real addresses.
+
+services:
+  # ── 1. Main backend (FastAPI): chat, voice, translation, TTS ──────────
+  - type: web
+    name: agrisathi-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: INFERENCE_MODE
+        value: api
+      - key: DEVICE
+        value: cpu
+      - key: CROP_API_URL
+        value: https://agrisathi-crop.onrender.com
+      - key: DISEASE_API_URL
+        value: https://agrisathi-disease.onrender.com
+      # When the app opens, wake the two sleeping services (see /api/health)
+      - key: WAKE_SERVICES_ON_HEALTH
+        value: "true"
+      # A sleeping crop_api needs ~1 minute to wake; wait longer than locally
+      - key: CROP_API_TIMEOUT_S
+        value: "20"
+      # Set to the frontend's https address once it is hosted ("*" = allow all)
+      - key: FRONTEND_ORIGIN
+        value: "*"
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: HF_TOKEN
+        sync: false
+
+  # ── 2. Crop recommendation (Flask, rules + weather + BM25) ────────────
+  - type: web
+    name: agrisathi-crop
+    runtime: python
+    plan: free
+    rootDir: crop_api
+    buildCommand: pip install -r requirements.txt gunicorn
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+
+  # ── 3. Leaf disease model (Flask + torch, CPU only) ───────────────────
+  # The normal torch download includes GPU code (~2.5 GB); the CPU-only
+  # build is much smaller and is all a free server can use anyway.
+  # The model itself is downloaded during the build (download_model.py).
+  - type: web
+    name: agrisathi-disease
+    runtime: python
+    plan: free
+    rootDir: disease_api
+    buildCommand: >-
+      pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+      && pip install flask pillow requests gunicorn
+      && python download_model.py
+    # 1 worker: two copies of the model would not fit in 512 MB
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      # Folder holding best_model.pt + model_meta.json, e.g.
+      # https://huggingface.co/<user>/<repo>/resolve/main
+      - key: MODEL_BASE_URL
+        sync: false
+      # Only needed if that Hugging Face repo is private
+      - key: HF_TOKEN
+        sync: false

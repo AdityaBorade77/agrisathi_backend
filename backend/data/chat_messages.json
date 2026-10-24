@@ -1,0 +1,8 @@
+{
+  "_comment": "Fixed farmer-facing text for /api/chat's pipeline B2 (Phase 3). Used only when both pipeline B2 and pipeline C fail to produce a usable mr/hi answer (CHAT_LLM_PROVIDER=b2) -- see _chat_fallback_message in main.py. mr/hi are a first-pass translation, not yet confirmed by a native speaker or the local KVK -- reviewed:false until then (same convention as crop_messages.json/disease_names.json). No 'en' entry: English chat never goes through this path (see chat()/_chat_pipeline_b2 in main.py).",
+  "reviewed": false,
+  "fallback_no_answer": {
+    "mr": "माफ करा, आत्ता उत्तर देता आले नाही. थोड्या वेळाने पुन्हा विचारा.",
+    "hi": "माफ़ कीजिए, अभी जवाब नहीं दे पाए. थोड़ी देर बाद फिर पूछें."
+  }
+}

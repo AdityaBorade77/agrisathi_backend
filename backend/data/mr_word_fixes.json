@@ -1,0 +1,21 @@
+{
+  "_comment": "Hindi words the crop LLM sometimes writes even when asked for Marathi (language=mr), paired with the correct Marathi word. Applied by main.py's _apply_mr_word_fixes to LLM-sourced reason/risk text, mr only. Whole-word replacement only (matched as a standalone, space-separated token with leading/trailing punctuation ignored) -- never a substring inside a longer word. Not yet checked by a native speaker or the local KVK -- reviewed:false, same convention as crop_messages.json and disease_names.json.",
+  "reviewed": false,
+  "fixes": {
+    "सितंबर": "सप्टेंबर",
+    "सितम्बर": "सप्टेंबर",
+    "अक्टूबर": "ऑक्टोबर",
+    "अक्टोबर": "ऑक्टोबर",
+    "नवंबर": "नोव्हेंबर",
+    "नवम्बर": "नोव्हेंबर",
+    "जुलाई": "जुलै",
+    "अगस्त": "ऑगस्ट",
+    "सीजन": "हंगाम",
+    "बुवाई": "पेरणी",
+    "रबी": "रब्बी",
+    "खरीफ": "खरीप",
+    "फसल": "पीक",
+    "मकै": "मका",
+    "केव्हीके शी": "केव्हीकेशी"
+  }
+}

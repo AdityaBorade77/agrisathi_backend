@@ -1,0 +1,28 @@
+{
+  "mr": {
+    "fertilizer": "खत",
+    "pesticide": "कीटकनाशक",
+    "irrigation": "ओलित",
+    "spray": "फवारणी",
+    "leaf": "पान",
+    "soil": "माती",
+    "seed": "बियाणे",
+    "harvest": "काढणी",
+    "yield": "उत्पादन",
+    "fungus": "बुरशी",
+    "pest": "कीड"
+  },
+  "hi": {
+    "fertilizer": "खाद",
+    "pesticide": "कीटनाशक",
+    "irrigation": "सिंचाई",
+    "spray": "छिड़काव",
+    "leaf": "पत्ता",
+    "soil": "मिट्टी",
+    "seed": "बीज",
+    "harvest": "कटाई",
+    "yield": "उपज",
+    "fungus": "फफूंद",
+    "pest": "कीट"
+  }
+}

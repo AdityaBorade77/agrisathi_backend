@@ -1,0 +1,19 @@
+# ── Core packages (required for API mode) ─────────────────────
+# These work with Python 3.9–3.13+
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+pydantic
+httpx
+soundfile
+numpy
+requests
+aiofiles
+deep-translator
+gTTS
+SpeechRecognition
+imageio-ffmpeg
+openai
+emoji
+pytest
