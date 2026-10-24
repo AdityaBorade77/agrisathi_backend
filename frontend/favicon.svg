@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4CAF50" />
+      <stop offset="100%" stop-color="#1B5E20" />
+    </linearGradient>
+    <linearGradient id="leafGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#81C784" />
+      <stop offset="100%" stop-color="#2E7D32" />
+    </linearGradient>
+    <linearGradient id="chatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E8F5E9" />
+    </linearGradient>
+    <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF176" />
+      <stop offset="100%" stop-color="#FFA000" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#1B5E20" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- Outer circular card background -->
+  <circle cx="256" cy="256" r="236" fill="#F1F8E9" stroke="#A5D6A7" stroke-width="6" />
+
+  <!-- Chat bubble silhouette with subtle drop shadow -->
+  <g filter="url(#shadow)">
+    <path d="M130 220 C130 145 185 95 260 95 C335 95 390 145 390 220 C390 290 335 340 265 340 C242 340 222 335 204 327 L148 355 C138 360 128 351 131 340 L139 308 C133 283 130 252 130 220 Z"
+          fill="url(#chatGrad)" stroke="#2E7D32" stroke-width="10" stroke-linejoin="round" />
+  </g>
+
+  <!-- Yellow Accent: Golden Sun / AI spark at upper right -->
+  <circle cx="350" cy="130" r="30" fill="url(#sunGrad)" stroke="#FF8F00" stroke-width="4" />
+  <!-- Sun rays -->
+  <path d="M350 88 L350 78 M350 172 L350 182 M308 130 L298 130 M392 130 L402 130 M320 100 L312 92 M380 160 L388 168 M320 160 L312 168 M380 100 L388 92"
+        stroke="#FFA000" stroke-width="5" stroke-linecap="round" />
+
+  <!-- Chat wave dots inside top of bubble -->
+  <circle cx="210" cy="175" r="7" fill="#2E7D32" opacity="0.6" />
+  <circle cx="240" cy="165" r="8" fill="#2E7D32" opacity="0.75" />
+  <circle cx="272" cy="165" r="8" fill="#2E7D32" opacity="0.75" />
+
+  <!-- Left Green Leaf -->
+  <path d="M256 315 C225 270 170 250 165 195 C205 195 250 225 256 315 Z"
+        fill="url(#leafGrad2)" stroke="#1B5E20" stroke-width="6" stroke-linejoin="round" />
+
+  <!-- Right Green Leaf (Main Leaf) -->
+  <path d="M256 315 C268 250 330 210 355 165 C352 225 310 278 256 315 Z"
+        fill="url(#leafGrad1)" stroke="#1B5E20" stroke-width="6" stroke-linejoin="round" />
+
+  <!-- Leaf Center Stem / Neural Branch -->
+  <path d="M256 315 Q258 245 275 205" stroke="#1B5E20" stroke-width="5" stroke-linecap="round" fill="none" />
+  <path d="M232 245 Q248 242 258 250" stroke="#1B5E20" stroke-width="4" stroke-linecap="round" fill="none" />
+  <path d="M292 232 Q276 238 266 244" stroke="#1B5E20" stroke-width="4" stroke-linecap="round" fill="none" />
+
+  <!-- Sprout node base -->
+  <circle cx="256" cy="315" r="9" fill="#1B5E20" />
+</svg>

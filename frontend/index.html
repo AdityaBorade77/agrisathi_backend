@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="mr" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1F4D22" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AgriSaathi" />
+
+  <!-- SEO -->
+  <title>AgriSaathi | AI Based Multilingual Agricultural Assistant</title>
+  <meta name="description"
+    content="AgriSaathi - AI Based Multilingual Chatbot with Disease Prediction and Crop Recommendation for Farmers." />
+  <meta name="keywords"
+    content="AgriSaathi, Marathi farming chatbot, crop recommendation, leaf disease detection, AI agriculture, Nashik" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="AgriSaathi - AI for Better Farming" />
+  <meta property="og:description"
+    content="AI Based Multilingual Chatbot with Disease Prediction and Crop Recommendation" />
+  <meta property="og:type" content="website" />
+
+  <!-- PWA & Favicon -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <!-- Fonts: Mukta is self-hosted in fonts/ (see style.css section 1),
+       so there is no Google Fonts request and it works offline. -->
+  <link rel="preload" href="fonts/mukta-400-devanagari.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+     1. FULL-SCREEN SPLASH SCREEN (Light-green & white theme)
+═══════════════════════════════════════════════════════ -->
+  <div class="splash-screen" id="splash-screen" role="dialog" aria-modal="true" aria-label="Loading AgriSaathi">
+    <div class="splash-container">
+      <div class="splash-logo-wrapper">
+        <img src="assets/logo.svg" alt="AgriSaathi Logo" class="splash-logo" />
+      </div>
+      <div class="splash-brand">
+        <h1 class="splash-title">AgriSaathi</h1>
+        <div class="splash-subtitle-lang" id="splash-sub-text">एग्रीसाथी</div>
+      </div>
+      <p class="splash-tagline" id="splash-tagline">AI for Better Farming</p>
+      
+      <!-- Animated circular loading spinner -->
+      <div class="splash-spinner" role="progressbar" aria-label="Loading application"></div>
+      
+      <p class="splash-status" id="splash-status">Initializing agricultural assistant...</p>
+      <button type="button" class="splash-skip-btn" id="splash-skip-btn">Continue to App &rarr;</button>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     2. RESPONSIVE AUTHENTICATION / LOGIN SCREEN
+═══════════════════════════════════════════════════════ -->
+  <div class="auth-screen" id="auth-screen" style="display: none;">
+    <div class="auth-card">
+      
+      <!-- Language Switcher on Login -->
+      <div class="auth-lang-selector" role="group" aria-label="Select language">
+        <button class="auth-lang-btn" data-lang="mr">मराठी</button>
+        <button class="auth-lang-btn" data-lang="hi">हिंदी</button>
+        <button class="auth-lang-btn" data-lang="en">English</button>
+      </div>
+
+      <!-- Auth Branding Header -->
+      <div class="auth-header">
+        <img src="assets/logo.svg" alt="AgriSaathi Logo" class="auth-logo" />
+        <h2 class="auth-title" id="auth-title">AgriSaathi</h2>
+        <p class="auth-subtitle" id="auth-subtitle">AI for Better Farming</p>
+      </div>
+
+      <!-- Tabs: Sign In / Register -->
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab-btn active" id="tab-login" role="tab" aria-selected="true">
+          <span id="tab-login-text">Sign In</span>
+        </button>
+        <button class="auth-tab-btn" id="tab-register" role="tab" aria-selected="false">
+          <span id="tab-register-text">Register</span>
+        </button>
+      </div>
+
+      <!-- Error / Validation Alert Banner -->
+      <div class="auth-alert hidden" id="auth-alert" role="alert" aria-live="assertive"></div>
+
+      <!-- SIGN IN FORM -->
+      <form class="auth-form" id="login-form" novalidate>
+        <div class="field">
+          <label class="field-label" for="login-identifier" id="lbl-login-identifier">
+            Email or 10-Digit Mobile Number
+          </label>
+          <input
+            type="text"
+            id="login-identifier"
+            class="input"
+            placeholder="e.g. 9876543210 or farmer@example.com"
+            autocomplete="username"
+            required
+          />
+          <div class="field-hint" id="hint-login-identifier">Enter your registered email or 10-digit mobile</div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="login-password" id="lbl-login-password">
+            Password
+          </label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="login-password"
+              class="input password-input"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle-btn"
+              id="toggle-login-password"
+              title="Show / hide password"
+              aria-label="Show password"
+            >
+              👁️
+            </button>
+          </div>
+          <div class="field-hint" id="hint-login-password">Must be at least 6 characters</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login-submit">
+          Sign In
+        </button>
+
+        <button type="button" class="btn btn-secondary btn-block" id="btn-demo-login" style="margin-top: 10px;">
+          ⚡ Quick Demo Login (Nashik Farmer)
+        </button>
+
+        <p class="auth-footer-text">
+          <span id="txt-no-account">Don't have an account?</span>
+          <button type="button" class="link-btn" id="link-to-register">Register here</button>
+        </p>
+      </form>
+
+      <!-- REGISTRATION FORM -->
+      <form class="auth-form hidden" id="register-form" novalidate>
+        <div class="field">
+          <label class="field-label" for="reg-name" id="lbl-reg-name">
+            Farmer Full Name
+          </label>
+          <input
+            type="text"
+            id="reg-name"
+            class="input"
+            placeholder="e.g. Ramesh Patil"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="reg-identifier" id="lbl-reg-identifier">
+            Email or 10-Digit Mobile Number
+          </label>
+          <input
+            type="text"
+            id="reg-identifier"
+            class="input"
+            placeholder="e.g. 9876543210 or farmer@example.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="reg-taluka" id="lbl-reg-taluka">
+            Taluka (Nashik District)
+          </label>
+          <select id="reg-taluka" class="input">
+            <option value="Nashik">Nashik / नाशिक</option>
+            <option value="Niphad">Niphad / निफाड</option>
+            <option value="Dindori">Dindori / दिंडोरी</option>
+            <option value="Sinnar">Sinnar / सिन्नर</option>
+            <option value="Yeola">Yeola / येवला</option>
+            <option value="Chandwad">Chandwad / चांदवड</option>
+            <option value="Malegaon">Malegaon / मालेगाव</option>
+            <option value="Baglan">Baglan (Satana) / बागलाण</option>
+            <option value="Kalwan">Kalwan / कळवण</option>
+            <option value="Deola">Deola / देवळा</option>
+            <option value="Igatpuri">Igatpuri / इगतपुरी</option>
+            <option value="Trimbakeshwar">Trimbakeshwar / त्र्यंबकेश्वर</option>
+            <option value="Peint">Peint / पेठ</option>
+            <option value="Surgana">Surgana / सुरगाणा</option>
+            <option value="Nandgaon">Nandgaon / नांदगाव</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="reg-password" id="lbl-reg-password">
+            Password
+          </label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="reg-password"
+              class="input password-input"
+              placeholder="Minimum 6 characters"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle-btn"
+              id="toggle-reg-password"
+              title="Show / hide password"
+              aria-label="Show password"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="reg-confirm-password" id="lbl-reg-confirm-password">
+            Confirm Password
+          </label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="reg-confirm-password"
+              class="input password-input"
+              placeholder="Re-enter password"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle-btn"
+              id="toggle-reg-confirm-password"
+              title="Show / hide password"
+              aria-label="Show password"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-reg-submit">
+          Create Account
+        </button>
+
+        <p class="auth-footer-text">
+          <span id="txt-have-account">Already have an account?</span>
+          <button type="button" class="link-btn" id="link-to-login">Sign In</button>
+        </p>
+      </form>
+
+      <!-- Transparent Notice Regarding Backend Authentication Integration -->
+      <div class="auth-backend-notice" role="note">
+        <strong>ℹ️ System Authentication Notice:</strong>
+        The FastAPI backend currently stores chat history and ML model endpoints. Production JWT/OAuth token verification can be integrated with SQLite user tables. Client-side verified session is active.
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     3. APP SHELL (HOMEPAGE: CHATBOT + DISEASE + CROP ADVISOR)
+═══════════════════════════════════════════════════════ -->
+  <div class="layout-container" id="layout-container" style="display: none;">
+
+    <!-- ── Sidebar (Navigation + Chat History) ──────────────── -->
+    <aside class="history-sidebar" id="history-sidebar" role="navigation" aria-label="Main Navigation and Chat History">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <img src="assets/logo.svg" alt="AgriSaathi Logo" class="sidebar-logo-img" />
+          <span class="sidebar-brand-name">AgriSaathi</span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close sidebar">✕</button>
+      </div>
+
+      <!-- Module Navigation Links -->
+      <nav class="sidebar-nav" aria-label="Application Sections">
+        <button type="button" class="sidebar-nav-item active" data-route="dashboard" id="side-nav-dashboard">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label" id="lbl-nav-dash">Dashboard</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-route="crop" id="side-nav-crop">
+          <span class="nav-icon">🌱</span>
+          <span class="nav-label" id="lbl-nav-crop">Crop Recommendation</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-route="disease" id="side-nav-disease">
+          <span class="nav-icon">🍃</span>
+          <span class="nav-label" id="lbl-nav-disease">Disease Detection</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-route="chat" id="side-nav-chat">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-label" id="lbl-nav-chat">AI Farming Assistant</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- Chat History Section -->
+      <div class="sidebar-history-section">
+        <div class="sidebar-section-header">
+          <span class="sidebar-section-title" id="lbl-sidebar-history-title">Recent Chats</span>
+          <button class="new-chat-btn" id="new-chat-btn" aria-label="Create new chat">
+            <span>+</span> New
+          </button>
+        </div>
+        <div class="sidebar-content">
+          <ul class="chat-list" id="chat-list" role="list">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer with User Session & Logout -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user-info" id="sidebar-user-chip">
+          <span class="user-avatar" aria-hidden="true">🧑‍🌾</span>
+          <span class="user-name" id="sidebar-user-name">Farmer</span>
+        </div>
+        <button type="button" class="sidebar-logout-btn" id="sidebar-logout-btn" title="Sign out" aria-label="Sign out">
+          🚪
+        </button>
+      </div>
+    </aside>
+
+    <div id="app">
+
+      <!-- ── Header ─────────────────────────────────────────── -->
+      <header class="app-header" role="banner">
+        <div class="app-logo">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation" title="Toggle Navigation">
+            ☰
+          </button>
+          <a href="#/dashboard" class="logo-link" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+            <div class="logo-icon" aria-hidden="true">
+              <img src="assets/logo.svg" alt="AgriSaathi" class="header-logo-img" />
+            </div>
+            <div class="logo-text">
+              <span class="logo-title">AgriSaathi</span>
+              <span class="logo-subtitle">AI for Better Farming</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation Bar -->
+        <nav class="desktop-nav" aria-label="Main Navigation">
+          <button type="button" class="desktop-nav-link active" data-route="dashboard">
+            <span>🏠</span> <span id="top-nav-dash">Dashboard</span>
+          </button>
+          <button type="button" class="desktop-nav-link" data-route="crop">
+            <span>🌱</span> <span id="top-nav-crop">Crop Recommendation</span>
+          </button>
+          <button type="button" class="desktop-nav-link" data-route="disease">
+            <span>🍃</span> <span id="top-nav-disease">Disease Detection</span>
+          </button>
+          <button type="button" class="desktop-nav-link" data-route="chat">
+            <span>🤖</span> <span id="top-nav-chat">AI Assistant</span>
+          </button>
+        </nav>
+
+        <div class="header-status">
+          <!-- User Session Indicator & Logout -->
+          <div class="user-session-chip" id="user-session-chip" title="Current Farmer Profile">
+            <span class="user-avatar" aria-hidden="true">🧑‍🌾</span>
+            <span class="user-name" id="user-display-name">Farmer</span>
+          </div>
+          <button class="logout-btn" id="logout-btn" title="Sign out" aria-label="Sign out">
+            🚪 Logout
+          </button>
+
+          <div class="status-indicator" id="status-indicator" role="status" aria-live="polite">
+            <div class="status-dot"></div>
+            <span id="status-text">Connecting...</span>
+          </div>
+          <button class="settings-btn" id="settings-btn" title="Settings" aria-label="Open settings">
+            ⚙️
+          </button>
+        </div>
+      </header>
+
+      <!-- ── Language Selector ───────────────────────────────── -->
+      <div class="lang-selector" id="lang-selector" role="group" aria-label="Choose language">
+        <button class="lang-btn" data-lang="mr">मराठी</button>
+        <button class="lang-btn" data-lang="hi">हिंदी</button>
+        <button class="lang-btn" data-lang="en">English</button>
+      </div>
+
+      <!-- ── Dynamic Multi-Page Views Container ────────────── -->
+      <div class="views-container" id="views-container">
+
+        <!-- ═══════════════════════════════════════════════════════
+             VIEW 1: AGRICULTURAL AI MAIN DASHBOARD
+        ═══════════════════════════════════════════════════════ -->
+        <section id="view-dashboard" class="app-view">
+          <div class="dashboard-container">
+            
+            <!-- Hero / Welcome Banner -->
+            <div class="dashboard-hero">
+              <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span id="dash-region-badge">Nashik District • Agro-Climatic Intelligence</span>
+              </div>
+              <h1 class="hero-title" id="dash-welcome-title">Your Smart Farming Assistant</h1>
+              <p class="hero-subtitle" id="dash-welcome-desc">
+                AgriSaathi helps farmers make better farming decisions through intelligent crop recommendations, leaf disease detection, and multilingual voice advisory in Marathi, Hindi, and English.
+              </p>
+              <div class="hero-farmer-greeting">
+                <span class="greeting-icon">👋</span>
+                <span id="dash-farmer-greeting">Welcome back, Farmer!</span>
+              </div>
+            </div>
+
+            <!-- 3 Prominent Clickable Module Cards -->
+            <div class="modules-grid">
+              
+              <!-- Card 1: Crop Recommendation -->
+              <div class="module-card card-crop" data-route="crop" tabindex="0" role="button" aria-label="Open Crop Recommendation">
+                <div class="card-icon-wrapper crop-icon-bg">
+                  <span class="card-icon">🌱</span>
+                </div>
+                <div class="card-content">
+                  <div class="card-header-row">
+                    <h2 class="card-title" id="card-crop-title">Crop Recommendation</h2>
+                    <span class="card-badge" id="card-crop-badge">Module 1</span>
+                  </div>
+                  <p class="card-desc" id="card-crop-desc">
+                    Find suitable crops using soil nutrients and weather conditions.
+                  </p>
+                  <div class="card-tags">
+                    <span class="card-tag">NPK Analysis</span>
+                    <span class="card-tag">Soil pH</span>
+                    <span class="card-tag">Weather Match</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-card btn-crop" id="btn-card-crop" data-route="crop">
+                    <span id="txt-btn-crop">Recommend Crop</span> &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card 2: Plant Disease Detection -->
+              <div class="module-card card-disease" data-route="disease" tabindex="0" role="button" aria-label="Open Plant Disease Detection">
+                <div class="card-icon-wrapper disease-icon-bg">
+                  <span class="card-icon">🍃</span>
+                </div>
+                <div class="card-content">
+                  <div class="card-header-row">
+                    <h2 class="card-title" id="card-disease-title">Plant Disease Detection</h2>
+                    <span class="card-badge" id="card-disease-badge">Module 2</span>
+                  </div>
+                  <p class="card-desc" id="card-disease-desc">
+                    Identify plant diseases from leaf images and view treatment advice.
+                  </p>
+                  <div class="card-tags">
+                    <span class="card-tag">AI Vision Model</span>
+                    <span class="card-tag">Leaf Diagnosis</span>
+                    <span class="card-tag">Treatment Guide</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-card btn-disease" id="btn-card-disease" data-route="disease">
+                    <span id="txt-btn-disease">Detect Disease</span> &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card 3: AI Agricultural Chatbot -->
+              <div class="module-card card-chat" data-route="chat" tabindex="0" role="button" aria-label="Open AI Agricultural Chatbot">
+                <div class="card-icon-wrapper chat-icon-bg">
+                  <span class="card-icon">🤖</span>
+                </div>
+                <div class="card-content">
+                  <div class="card-header-row">
+                    <h2 class="card-title" id="card-chat-title">AI Agricultural Chatbot</h2>
+                    <span class="card-badge" id="card-chat-badge">Module 3</span>
+                  </div>
+                  <p class="card-desc" id="card-chat-desc">
+                    Ask farming questions in Marathi, Hindi, or English using text or voice.
+                  </p>
+                  <div class="card-tags">
+                    <span class="card-tag">Marathi Voice AI</span>
+                    <span class="card-tag">Speech Output</span>
+                    <span class="card-tag">Farming Advice</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-card btn-chat" id="btn-card-chat" data-route="chat">
+                    <span id="txt-btn-chat">Ask AI Assistant</span> &rarr;
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Dashboard Feature Highlights Row -->
+            <div class="dashboard-info-row">
+              <div class="info-pill">
+                <span class="info-pill-icon">📍</span>
+                <div class="info-pill-text">
+                  <strong id="pill-title-nashik">Nashik District Focus</strong>
+                  <span id="pill-desc-nashik">Calibrated for local red-black soils & Kharif/Rabi seasons</span>
+                </div>
+              </div>
+              <div class="info-pill">
+                <span class="info-pill-icon">🔬</span>
+                <div class="info-pill-text">
+                  <strong id="pill-title-science">ICAR & CNN Verified</strong>
+                  <span id="pill-desc-science">Scientific rules from Krishi Vigyan Kendra</span>
+                </div>
+              </div>
+              <div class="info-pill">
+                <span class="info-pill-icon">🗣️</span>
+                <div class="info-pill-text">
+                  <strong id="pill-title-voice">Multilingual Voice AI</strong>
+                  <span id="pill-desc-voice">Speak naturally in Marathi, Hindi, or English</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             VIEW 2: DEDICATED CROP RECOMMENDATION PAGE
+        ═══════════════════════════════════════════════════════ -->
+        <section id="view-crop" class="app-view hidden">
+          <div class="module-page-container">
+            
+            <!-- Back to Dashboard Nav -->
+            <div class="page-top-bar">
+              <button type="button" class="btn-back-dashboard" data-route="dashboard">
+                &larr; <span id="txt-crop-back">Back to Dashboard</span>
+              </button>
+            </div>
+
+            <!-- Page Title Header -->
+            <div class="module-page-header">
+              <div class="module-page-icon crop-icon-bg">🌱</div>
+              <div>
+                <h1 class="module-page-title" id="crop-page-title">Crop Recommendation</h1>
+                <p class="module-page-subtitle" id="crop-page-subtitle">
+                  Find suitable crops using soil nutrients, pH, and environmental conditions.
+                </p>
+              </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="form-card">
+              <form id="dedicated-crop-form" novalidate>
+                
+                <!-- Soil Nutrients N, P, K, pH -->
+                <fieldset class="form-section">
+                  <legend class="form-section-legend">
+                    <span>🧪</span> <span id="leg-crop-nutrients">Soil Nutrients & Properties</span>
+                  </legend>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label class="field-label" for="crop-n" id="lbl-crop-n">Nitrogen (N) (kg/ha)</label>
+                      <input type="number" id="crop-n" class="input" placeholder="e.g. 140" step="1" min="0" max="600" />
+                      <div class="field-hint" id="hint-crop-n">Available nitrogen in soil</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-p" id="lbl-crop-p">Phosphorus (P) (kg/ha)</label>
+                      <input type="number" id="crop-p" class="input" placeholder="e.g. 50" step="1" min="0" max="300" />
+                      <div class="field-hint" id="hint-crop-p">Available phosphorus in soil</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-k" id="lbl-crop-k">Potassium (K) (kg/ha)</label>
+                      <input type="number" id="crop-k" class="input" placeholder="e.g. 200" step="1" min="0" max="500" />
+                      <div class="field-hint" id="hint-crop-k">Available potassium in soil</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-ph" id="lbl-crop-ph">Soil pH</label>
+                      <input type="number" id="crop-ph" class="input" placeholder="e.g. 6.8" step="0.1" min="0" max="14" />
+                      <div class="field-hint" id="hint-crop-ph">Scale 0 - 14 (Optimal: 6.0 - 7.5)</div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Environmental & Climate Conditions -->
+                <fieldset class="form-section">
+                  <legend class="form-section-legend">
+                    <span>⛅</span> <span id="leg-crop-climate">Environmental & Climate Conditions</span>
+                  </legend>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label class="field-label" for="crop-temperature" id="lbl-crop-temp">Temperature in °C</label>
+                      <input type="number" id="crop-temperature" class="input" placeholder="e.g. 28.0" step="0.1" min="-10" max="60" />
+                      <div class="field-hint" id="hint-crop-temp">Average seasonal temperature</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-humidity" id="lbl-crop-humidity">Humidity in %</label>
+                      <input type="number" id="crop-humidity" class="input" placeholder="e.g. 65" step="1" min="0" max="100" />
+                      <div class="field-hint" id="hint-crop-humidity">Relative humidity percentage</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-rainfall" id="lbl-crop-rainfall">Rainfall in mm</label>
+                      <input type="number" id="crop-rainfall" class="input" placeholder="e.g. 750" step="1" min="0" max="5000" />
+                      <div class="field-hint" id="hint-crop-rainfall">Seasonal rainfall in mm</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-soil-type" id="lbl-crop-soiltype">Soil Type</label>
+                      <select id="crop-soil-type" class="input">
+                        <option value="">Not Sure / माहीत नाही</option>
+                        <option value="light">Light Soil / हलकी जमीन (Shallow red)</option>
+                        <option value="medium" selected>Medium Soil / मध्यम जमीन (Medium black)</option>
+                        <option value="heavy">Heavy Soil / भारी जमीन (Deep black)</option>
+                      </select>
+                      <div class="field-hint" id="hint-crop-soiltype">Soil texture classification</div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Location & Sowing Configuration -->
+                <fieldset class="form-section">
+                  <legend class="form-section-legend">
+                    <span>📍</span> <span id="leg-crop-location">Taluka & Sowing Schedule</span>
+                  </legend>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label class="field-label" for="crop-taluka-select" id="lbl-crop-taluka">Taluka (Nashik District)</label>
+                      <select id="crop-taluka-select" class="input" required></select>
+                      <div class="field-hint" id="hint-crop-taluka">Local agro-climatic sub-region</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-month-select" id="lbl-crop-month">Sowing Month</label>
+                      <select id="crop-month-select" class="input" required></select>
+                      <div class="field-hint" id="hint-crop-month">Target planting time</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" id="lbl-crop-irrigation">Irrigation Available?</label>
+                      <div class="toggle-group" id="crop-page-irrigation" role="radiogroup">
+                        <button type="button" class="toggle-btn selected" data-value="yes" id="btn-irr-yes">Yes / होय</button>
+                        <button type="button" class="toggle-btn" data-value="no" id="btn-irr-no">No / नाही</button>
+                      </div>
+                      <div class="field-hint" id="hint-crop-irrigation">Well, canal, or drip irrigation</div>
+                    </div>
+                    <div class="field">
+                      <label class="field-label" for="crop-prev-select" id="lbl-crop-prev">Previous Crop (Optional)</label>
+                      <select id="crop-prev-select" class="input">
+                        <option value="">None / काही नाही</option>
+                      </select>
+                      <div class="field-hint" id="hint-crop-prev">For crop rotation benefit</div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Validation Alert -->
+                <div class="form-alert hidden" id="crop-form-alert" role="alert"></div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-submit-crop">
+                    🌱 <span id="txt-submit-crop">Recommend Crop</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div class="module-loading hidden" id="crop-loading-state">
+              <div class="loading-spinner"></div>
+              <p class="loading-text" id="crop-loading-text">
+                Analyzing soil nutrients, weather conditions, and ICAR agricultural guidelines...
+              </p>
+            </div>
+
+            <!-- Error State -->
+            <div class="module-error-box hidden" id="crop-error-box" role="alert">
+              <div class="error-icon">⚠️</div>
+              <div class="error-details">
+                <h3 class="error-heading" id="crop-error-heading">Service Unavailable</h3>
+                <p class="error-message" id="crop-error-message"></p>
+                <p class="error-hint">To run the crop recommendation backend service: <code>cd backend &amp;&amp; start.bat</code> or <code>cd crop_api &amp;&amp; python app.py</code></p>
+              </div>
+            </div>
+
+            <!-- Recommendation Results Section -->
+            <div class="module-results hidden" id="crop-results-container">
+              <div class="results-header">
+                <h2 class="results-title" id="crop-results-title">🌾 Recommended Crops</h2>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-crop-speak-all">
+                  🔊 <span id="txt-crop-listen">Listen Advice</span>
+                </button>
+              </div>
+              <div class="crop-results-list" id="crop-results-list">
+                <!-- Populated dynamically from API -->
+              </div>
+              <div class="results-disclaimer" id="crop-results-disclaimer"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             VIEW 3: DEDICATED PLANT DISEASE DETECTION PAGE
+        ═══════════════════════════════════════════════════════ -->
+        <section id="view-disease" class="app-view hidden">
+          <div class="module-page-container">
+            
+            <!-- Back to Dashboard Nav -->
+            <div class="page-top-bar">
+              <button type="button" class="btn-back-dashboard" data-route="dashboard">
+                &larr; <span id="txt-disease-back">Back to Dashboard</span>
+              </button>
+            </div>
+
+            <!-- Page Title Header -->
+            <div class="module-page-header">
+              <div class="module-page-icon disease-icon-bg">🍃</div>
+              <div>
+                <h1 class="module-page-title" id="disease-page-title">Plant Disease Detection</h1>
+                <p class="module-page-subtitle" id="disease-page-subtitle">
+                  Identify plant diseases from leaf images and view treatment advice.
+                </p>
+              </div>
+            </div>
+
+            <!-- Upload Card -->
+            <div class="form-card">
+              
+              <!-- Step 1: Crop Selection -->
+              <div class="disease-step">
+                <label class="step-label" id="lbl-disease-step1">
+                  <span class="step-num">1</span> <span id="txt-disease-step1">Select Crop</span>
+                </label>
+                <div class="crop-selector-pills" id="disease-crop-pills" role="radiogroup" aria-label="Select crop">
+                  <button type="button" class="crop-pill active" data-crop="Onion">
+                    <span class="pill-emoji">🧅</span>
+                    <span class="pill-name">Onion / कांदा</span>
+                  </button>
+                  <button type="button" class="crop-pill" data-crop="Tomato">
+                    <span class="pill-emoji">🍅</span>
+                    <span class="pill-name">Tomato / टोमॅटो</span>
+                  </button>
+                  <button type="button" class="crop-pill" data-crop="Grape">
+                    <span class="pill-emoji">🍇</span>
+                    <span class="pill-name">Grape / द्राक्ष</span>
+                  </button>
+                  <button type="button" class="crop-pill" data-crop="Maize">
+                    <span class="pill-emoji">🌽</span>
+                    <span class="pill-name">Maize / मका</span>
+                  </button>
+                  <button type="button" class="crop-pill" data-crop="Cotton">
+                    <span class="pill-emoji">🌿</span>
+                    <span class="pill-name">Cotton / कापूस</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 2: Upload Leaf Photo -->
+              <div class="disease-step">
+                <label class="step-label" id="lbl-disease-step2">
+                  <span class="step-num">2</span> <span id="txt-disease-step2">Upload Leaf Image</span>
+                </label>
+
+                <!-- Drag & Drop Zone -->
+                <div class="dropzone" id="disease-dropzone" tabindex="0" role="button" aria-label="Upload leaf image">
+                  <input type="file" id="disease-file-input" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                  <div class="dropzone-content" id="dropzone-prompt">
+                    <div class="dropzone-icon">📷</div>
+                    <p class="dropzone-main-text" id="dropzone-main-text">
+                      <strong>Click to upload</strong> or drag & drop leaf photo here
+                    </p>
+                    <p class="dropzone-sub-text" id="dropzone-sub-text">
+                      Supports JPG, PNG, WEBP • Max 10MB • Clear photo in daylight
+                    </p>
+                  </div>
+
+                  <!-- Preview Container -->
+                  <div class="preview-container hidden" id="preview-container">
+                    <img id="disease-preview-img" alt="Leaf preview" class="preview-image" />
+                    <div class="preview-meta">
+                      <span id="preview-filename">leaf.jpg</span>
+                      <span id="preview-filesize">2.4 MB</span>
+                      <button type="button" class="btn-remove-preview" id="btn-remove-preview" title="Remove photo" aria-label="Remove photo">✕</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Validation Alert -->
+              <div class="form-alert hidden" id="disease-form-alert" role="alert"></div>
+
+              <!-- Submit Button -->
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary btn-block btn-lg" id="btn-submit-disease" disabled>
+                  🔍 <span id="txt-submit-disease">Detect Disease</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Loading State with Scanner Animation -->
+            <div class="module-loading hidden" id="disease-loading-state">
+              <div class="loading-scanner">
+                <div class="scanner-leaf">🍃</div>
+                <div class="scanner-bar"></div>
+              </div>
+              <p class="loading-text" id="disease-loading-text">
+                Analyzing leaf patterns with CNN deep learning model...
+              </p>
+            </div>
+
+            <!-- Error State -->
+            <div class="module-error-box hidden" id="disease-error-box" role="alert">
+              <div class="error-icon">⚠️</div>
+              <div class="error-details">
+                <h3 class="error-heading" id="disease-error-heading">Diagnosis Failed</h3>
+                <p class="error-message" id="disease-error-message"></p>
+                <p class="error-hint">To run the disease backend service: <code>cd backend &amp;&amp; start.bat</code> or <code>cd disease_api &amp;&amp; python app.py</code></p>
+              </div>
+            </div>
+
+            <!-- Real Results Section -->
+            <div class="module-results hidden" id="disease-results-container">
+              <div class="results-header">
+                <h2 class="results-title" id="disease-results-title">🔬 Disease Diagnosis Result</h2>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-disease-listen">
+                  🔊 <span id="txt-disease-listen">Listen Advice</span>
+                </button>
+              </div>
+
+              <div class="disease-result-card" id="disease-result-card">
+                <!-- Rendered dynamically from API -->
+              </div>
+
+              <div class="results-actions">
+                <button type="button" class="btn btn-secondary btn-lg" id="btn-upload-another">
+                  🔄 <span id="txt-upload-another">Upload Another Image</span>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg" data-route="chat">
+                  💬 <span id="txt-ask-chat-about-disease">Ask Assistant About Treatment</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             VIEW 4: DEDICATED AI AGRICULTURAL CHATBOT PAGE
+        ═══════════════════════════════════════════════════════ -->
+        <section id="view-chat" class="app-view hidden">
+          <div class="chat-page-container">
+            
+            <!-- Top Nav / Back to Dashboard -->
+            <div class="page-top-bar">
+              <button type="button" class="btn-back-dashboard" data-route="dashboard">
+                &larr; <span id="txt-chat-back">Back to Dashboard</span>
+              </button>
+              <div class="chat-top-info">
+                <span class="chat-status-badge">🟢 Online</span>
+                <span class="chat-lang-indicator" id="chat-lang-indicator">Marathi / English Voice</span>
+              </div>
+            </div>
+
+            <!-- Chat Area (Existing Chatbot Component) -->
+            <main class="chat-area" id="chat-area" role="main" aria-label="Chat messages" aria-live="polite">
+
+              <!-- Welcome Screen (hidden after first message) -->
+              <div class="welcome-screen" id="welcome-screen" role="complementary" aria-label="Getting started">
+                <div class="welcome-icon" aria-hidden="true">🌾</div>
+
+                <div>
+                  <h1 class="welcome-title" id="chat-welcome-heading">
+                    नमस्कार! Speak <span>Marathi</span>,<br />
+                    Hear it in <span>English</span>
+                  </h1>
+                  <p class="welcome-subtitle" id="chat-welcome-sub">
+                    Hold the mic button and speak in Marathi.<br />
+                    Or type English text to hear it spoken in Marathi.
+                  </p>
+                </div>
+
+                <div class="welcome-tips" role="list">
+                  <div class="tip-card" role="listitem">
+                    <span class="tip-icon">🎙️</span>
+                    <span>Hold mic &amp; speak <strong>Marathi</strong></span>
+                  </div>
+                  <div class="tip-card" role="listitem">
+                    <span class="tip-icon">📝</span>
+                    <span>Type <strong>English</strong> text</span>
+                  </div>
+                  <div class="tip-card" role="listitem">
+                    <span class="tip-icon">🔊</span>
+                    <span>Tap ↺ to <strong>replay</strong> Marathi speech</span>
+                  </div>
+                </div>
+              </div>
+
+            </main>
+
+            <!-- Input Bar (Existing Chatbot Input Bar) -->
+            <footer class="input-bar" role="contentinfo">
+
+              <!-- Live Marathi transcript (shown while recording) -->
+              <div class="input-transcript" id="input-transcript" aria-label="Live Marathi transcript" aria-live="polite"></div>
+
+              <div class="input-row">
+
+                <!-- Mic Button -->
+                <div class="mic-container">
+                  <button class="mic-btn" id="mic-btn" aria-label="Hold to record Marathi speech"
+                    title="Hold to speak in Marathi">
+                    🎙️
+                  </button>
+                  <div class="mic-label" id="mic-label" aria-hidden="true">Hold to speak</div>
+                </div>
+
+                <!-- Photo Button (leaf disease check) -->
+                <div class="mic-container">
+                  <button class="mic-btn" id="photo-btn" aria-label="Upload leaf photo"
+                    title="Upload leaf photo">
+                    📷
+                  </button>
+                  <div class="mic-label" aria-hidden="true">Upload leaf photo</div>
+                </div>
+                <input type="file" id="photo-input" accept="image/*" class="hidden" aria-hidden="true" />
+
+                <!-- Crop Advisor Button -->
+                <div class="mic-container">
+                  <button class="mic-btn mic-btn-green" id="crop-advisor-btn" aria-label="Crop Advisor"
+                    title="Crop Advisor">
+                    🌾
+                  </button>
+                  <div class="mic-label" id="crop-advisor-label" aria-hidden="true">Crop Advisor</div>
+                </div>
+
+                <!-- Text Input -->
+                <div class="text-input-wrapper">
+                  <textarea id="text-input" placeholder="Type English text here... (Shift+Enter for new line)" rows="1"
+                    maxlength="2000" aria-label="Type English text to convert to Marathi speech" autocomplete="off"
+                    spellcheck="true"></textarea>
+                  <button class="send-btn" id="send-btn" aria-label="Send English text for Marathi translation"
+                    title="Send (Enter)">
+                    ➤
+                  </button>
+                </div>
+
+              </div>
+            </footer>
+
+          </div>
+        </section>
+
+      </div>
+      <!-- /.views-container -->
+
+      <!-- ── Mobile Bottom Navigation Bar ────────────────────── -->
+      <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <button type="button" class="bottom-nav-item active" data-route="dashboard" id="mob-nav-dashboard">
+          <span class="bottom-nav-icon">🏠</span>
+          <span class="bottom-nav-label" id="mob-lbl-dash">Home</span>
+        </button>
+        <button type="button" class="bottom-nav-item" data-route="crop" id="mob-nav-crop">
+          <span class="bottom-nav-icon">🌱</span>
+          <span class="bottom-nav-label" id="mob-lbl-crop">Crops</span>
+        </button>
+        <button type="button" class="bottom-nav-item" data-route="disease" id="mob-nav-disease">
+          <span class="bottom-nav-icon">🍃</span>
+          <span class="bottom-nav-label" id="mob-lbl-disease">Disease</span>
+        </button>
+        <button type="button" class="bottom-nav-item" data-route="chat" id="mob-nav-chat">
+          <span class="bottom-nav-icon">🤖</span>
+          <span class="bottom-nav-label" id="mob-lbl-chat">Chatbot</span>
+        </button>
+      </nav>
+
+    </div>
+    <!-- /#app -->
+
+  </div>
+  <!-- /.layout-container -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     SETTINGS MODAL
+═══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal" id="settings-modal">
+
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">
+          ⚙️ Settings
+        </div>
+        <button class="modal-close" id="settings-close" aria-label="Close settings">✕</button>
+      </div>
+
+      <!-- API URL -->
+      <div class="modal-section">
+        <label class="modal-label" for="api-url-input">Backend API URL</label>
+        <input type="url" id="api-url-input" class="modal-input" placeholder="http://localhost:8000"
+          value="http://localhost:8000" aria-describedby="api-url-help" />
+        <p id="api-url-help" style="font-size: 0.7rem; color: var(--c-text-muted); margin-top: 4px;">
+          Start backend: <code style="color: var(--c-green);">cd backend &amp;&amp; start.bat</code>.
+          Leave empty to use the address in config.js.
+        </p>
+      </div>
+
+      <!-- Voice Selection -->
+      <div class="modal-section">
+        <label class="modal-label">Marathi TTS Voice</label>
+        <div class="voice-grid" id="voice-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Save -->
+      <button class="modal-save" id="settings-save">
+        Save Settings
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     CROP PICKER MODAL (leaf disease check)
+═══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="crop-overlay" role="dialog" aria-modal="true" aria-labelledby="crop-modal-title">
+    <div class="modal" id="crop-modal">
+
+      <div class="modal-header">
+        <div class="modal-title" id="crop-modal-title">
+          🌿 Which crop is this leaf from?
+        </div>
+        <button class="modal-close" id="crop-close" aria-label="Close crop picker">✕</button>
+      </div>
+
+      <div class="modal-section">
+        <div class="crop-grid" id="crop-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     CROP ADVISOR MODAL
+═══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="crop-advisor-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="crop-advisor-modal-title">
+    <div class="modal modal-scrollable crop-advisor-modal" id="crop-advisor-modal">
+
+      <div class="modal-header">
+        <div class="modal-title" id="crop-advisor-modal-title">🌾 Crop Advisor</div>
+        <button class="modal-close" id="crop-advisor-close" aria-label="Close crop advisor">✕</button>
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" id="crop-advisor-taluka-label" for="crop-advisor-taluka">Taluka</label>
+        <select class="modal-input" id="crop-advisor-taluka"></select>
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" id="crop-advisor-month-label" for="crop-advisor-month">Sowing month</label>
+        <select class="modal-input" id="crop-advisor-month"></select>
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" id="crop-advisor-irrigation-label">Irrigation available?</label>
+        <div class="toggle-group" id="crop-advisor-irrigation" role="radiogroup"
+          aria-labelledby="crop-advisor-irrigation-label">
+          <button type="button" class="toggle-btn" data-value="yes">Yes</button>
+          <button type="button" class="toggle-btn" data-value="no">No</button>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" id="crop-advisor-soiltype-label" for="crop-advisor-soiltype">Soil type</label>
+        <select class="modal-input" id="crop-advisor-soiltype"></select>
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" id="crop-advisor-prevcrop-label" for="crop-advisor-prevcrop">Previous crop</label>
+        <select class="modal-input" id="crop-advisor-prevcrop"></select>
+      </div>
+
+      <details class="modal-section crop-advisor-soilcard">
+        <summary class="modal-label crop-advisor-soilcard-summary" id="crop-advisor-soilcard-label">
+          Soil Health Card values (optional)
+        </summary>
+        <div class="crop-advisor-soilcard-grid">
+          <div class="crop-advisor-field">
+            <label class="modal-label" id="crop-advisor-ph-label" for="crop-advisor-ph">pH</label>
+            <input class="modal-input" id="crop-advisor-ph" type="number" step="0.1" min="0" max="14"
+              inputmode="decimal" />
+          </div>
+          <div class="crop-advisor-field">
+            <label class="modal-label" id="crop-advisor-ec-label" for="crop-advisor-ec">EC (dS/m)</label>
+            <input class="modal-input" id="crop-advisor-ec" type="number" step="0.01" min="0" inputmode="decimal" />
+          </div>
+          <div class="crop-advisor-field">
+            <label class="modal-label" id="crop-advisor-oc-label" for="crop-advisor-oc">OC (%)</label>
+            <input class="modal-input" id="crop-advisor-oc" type="number" step="0.01" min="0" inputmode="decimal" />
+          </div>
+          <div class="crop-advisor-field">
+            <label class="modal-label" id="crop-advisor-n-label" for="crop-advisor-n">N (kg/ha)</label>
+            <input class="modal-input" id="crop-advisor-n" type="number" step="1" min="0" inputmode="decimal" />
+          </div>
+          <div class="crop-advisor-field">
+            <label class="modal-label" id="crop-advisor-p-label" for="crop-advisor-p">P (kg/ha)</label>
+            <input class="modal-input" id="crop-advisor-p" type="number" step="1" min="0" inputmode="decimal" />
+          </div>
+          <div class="crop-advisor-field">
+            <label class="modal-label" id="crop-advisor-k-label" for="crop-advisor-k">K (kg/ha)</label>
+            <input class="modal-input" id="crop-advisor-k" type="number" step="1" min="0" inputmode="decimal" />
+          </div>
+        </div>
+      </details>
+
+      <button class="modal-save modal-save-green" id="crop-advisor-submit">Get crop advice</button>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════ -->
+  <!-- config.js sets the backend address; it must load before app.js -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+
+</html>

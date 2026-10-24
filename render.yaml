@@ -29,9 +29,9 @@ services:
       - key: DEVICE
         value: cpu
       - key: CROP_API_URL
-        value: https://agrisathi-crop.onrender.com
+        value: https://agrisathi-crop-n0qq.onrender.com
       - key: DISEASE_API_URL
-        value: https://agrisathi-disease.onrender.com
+        value: https://agrisathi-disease-n0qq.onrender.com
       # When the app opens, wake the two sleeping services (see /api/health)
       - key: WAKE_SERVICES_ON_HEALTH
         value: "true"
@@ -59,6 +59,9 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.8
+      # Open-Meteo is slower to reach from the free server than from a laptop
+      - key: WEATHER_TIMEOUT_S
+        value: "10"
 
   # ── 3. Leaf disease model (Flask + torch, CPU only) ───────────────────
   # The normal torch download includes GPU code (~2.5 GB); the CPU-only
@@ -85,3 +88,24 @@ services:
       # Only needed if that Hugging Face repo is private
       - key: HF_TOKEN
         sync: false
+
+  # ── 4. The app itself (PWA): plain files, no build step ───────────────
+  # Static sites are free, never sleep and don't use the 750 free hours.
+  # The Android app (TWA) opens this address full-screen.
+  - type: web
+    name: agrisathi-app
+    runtime: static
+    rootDir: frontend
+    buildCommand: echo no-build-step
+    staticPublishPath: .
+    headers:
+      # Always re-check these, so a new version reaches phones quickly
+      - path: /sw.js
+        name: Cache-Control
+        value: no-cache
+      - path: /config.js
+        name: Cache-Control
+        value: no-cache
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache

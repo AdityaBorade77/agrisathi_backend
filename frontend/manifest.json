@@ -1,0 +1,63 @@
+{
+  "id": "./",
+  "name": "AgriSaathi - AI for Better Farming",
+  "short_name": "AgriSaathi",
+  "description": "AI Based Multilingual Chatbot with Disease Prediction and Crop Recommendation",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF6EE",
+  "theme_color": "#1F4D22",
+  "orientation": "any",
+  "lang": "mr",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "कृषी सल्लागार",
+      "short_name": "Ask",
+      "description": "Ask a farming question by voice or text",
+      "url": "./#/chat",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "रोग निदान",
+      "short_name": "Disease",
+      "description": "Check a leaf photo for disease",
+      "url": "./#/disease",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "पीक सल्लागार",
+      "short_name": "Crop Advisor",
+      "description": "Get crop recommendation",
+      "url": "./#/crop",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

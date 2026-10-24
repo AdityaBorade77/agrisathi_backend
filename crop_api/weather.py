@@ -2,13 +2,16 @@
 # Pure data fetch -- never raises, so a weather outage never breaks a
 # crop recommendation. Results are cached per (lat, lon) for 1 hour so a
 # burst of requests for the same taluka does not hammer the free API.
+import os
 import time
 from datetime import datetime, timezone
 
 import requests
 
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
-TIMEOUT_SECONDS = 3
+# 3 s is plenty on a laptop; the slow free Render CPU needs longer, so
+# Render sets WEATHER_TIMEOUT_S (see deploy/render.yaml).
+TIMEOUT_SECONDS = float(os.getenv("WEATHER_TIMEOUT_S", "3"))
 CACHE_SECONDS = 60 * 60
 
 _cache = {}  # (lat, lon) -> (fetched_at_monotonic, result_dict)
@@ -63,7 +66,9 @@ def get_weather(lat, lon):
 
     try:
         result = _fetch(lat, lon)
-    except (requests.RequestException, KeyError, ValueError, IndexError):
+    except (requests.RequestException, KeyError, ValueError, IndexError) as e:
+        # Still never raises, but say why in the server log (Render Logs tab)
+        print(f"Weather unavailable for {key}: {type(e).__name__}: {e}")
         return None
 
     _cache[key] = (time.monotonic(), result)
