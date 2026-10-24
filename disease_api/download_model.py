@@ -25,11 +25,13 @@ def main():
         print("Model files already present, nothing to download.")
         return
 
-    base_url = os.getenv("MODEL_BASE_URL", "").rstrip("/")
+    # strip(): a value pasted into a dashboard often carries a hidden
+    # space or line break at the end, which breaks the URL / token
+    base_url = os.getenv("MODEL_BASE_URL", "").strip().rstrip("/")
     if not base_url:
         sys.exit(f"Missing {missing} and MODEL_BASE_URL is not set.")
 
-    token = os.getenv("HF_TOKEN")
+    token = (os.getenv("HF_TOKEN") or "").strip()
     for name in missing:
         request = urllib.request.Request(f"{base_url}/{name}")
         if token:
